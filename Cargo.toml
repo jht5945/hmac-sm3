@@ -1,0 +1,19 @@
+[package]
+name = "hmac-sm3"
+version = "0.1.0"
+edition = "2021"
+authors = ["Hatter Jiang"]
+repository = "https://git.hatter.ink/hatter/hmac-sm3"
+description = "HMAC-SM3 Library"
+license = "MIT OR Apache-2.0"
+keywords = ["crypto", "hmac", "sm3", "hmac-sm3", "stream"]
+categories = ["cryptography"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+sm3 = "0.4.2"
+
+
+[dev-dependencies]
+hex = "0.4.3"
