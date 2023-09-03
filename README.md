@@ -19,3 +19,10 @@ let hmac2 = hm.finalize();
 assert_eq!("9d91da552268ddf11b9f69662773a66c6375b250336dfb9293e7e2611c36d79f", hex::encode(hmac2));
 ```
 
+Benchmark @MacBook Pro (Retina, 15-inch, Late 2013/2 GHz Quad-Core Intel Core i7)
+```text
+$ cargo run --release --example bench
+HMAC-SM3         : 219.19 M/s
+HMAC-SHA1        : 228.57 M/s
+HMAC-SHA256      : 204.96 M/s
+```

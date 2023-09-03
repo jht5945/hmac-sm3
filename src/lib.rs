@@ -11,7 +11,7 @@ pub struct HmacSm3 {
 
 impl HmacSm3 {
     pub fn new(key: &[u8]) -> Self {
-        let mut structured_key = vec![0_u8; BLOCK_LENGTH];
+        let mut structured_key = [0_u8; BLOCK_LENGTH];
         if key.len() > BLOCK_LENGTH {
             structured_key[0..SM3_OUTPUT_LENGTH].copy_from_slice(sm3_digest(&key).as_slice());
         } else {
@@ -39,9 +39,7 @@ impl HmacSm3 {
 
     pub fn finalize(&mut self) -> Vec<u8> {
         let ipad_message_digest = self.sm3.clone().finalize();
-        let mut opad_ipad_message_digest = self.opad.to_vec();
-        opad_ipad_message_digest.extend_from_slice(ipad_message_digest.as_slice());
-        sm3_digest(&opad_ipad_message_digest).as_slice().to_vec()
+        sm3_digest_2(&self.opad, &ipad_message_digest).as_slice().to_vec()
     }
 }
 
@@ -51,9 +49,18 @@ pub fn hmac_sm3(key: &[u8], message: &[u8]) -> Vec<u8> {
     hsm3.finalize()
 }
 
+#[inline]
 fn sm3_digest(message: &[u8]) -> Output<Sm3> {
     let mut sm3 = Sm3::new();
     sm3.update(&message);
+    sm3.finalize()
+}
+
+#[inline]
+fn sm3_digest_2(message: &[u8], message2: &[u8]) -> Output<Sm3> {
+    let mut sm3 = Sm3::new();
+    sm3.update(&message);
+    sm3.update(&message2);
     sm3.finalize()
 }
 
